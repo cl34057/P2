@@ -1,5 +1,6 @@
 #-1-Extrait les informations d'une page produit
 #**********************************************
+import lib_image
 import requests
 from bs4 import BeautifulSoup
 import csv

@@ -1,4 +1,4 @@
-#Télecharger et enregistrer le fichier image de chaque page Produit qu’on consulte
+
 import requests
 from bs4 import BeautifulSoup as bs
 import urllib.request
