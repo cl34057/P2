@@ -1,4 +1,4 @@
-#Coder en python. Sur le site Books to scrape, parcourir 
+git#Coder en python. Sur le site Books to scrape, parcourir 
 # toutes les pages du site. Dans chaque categorie on retrouve des produits. 
 # Créer donc un repertoire pour chaque catégorie rencontrée. 
 # Chaque repertoire aura comme nom le nom de la categorie. 
