@@ -26,13 +26,13 @@
 ### 3. Execution des scripts
 
     - Caractéristiques d'un seul produit:
-             'Ramaroson_francis_2_Extraire_ les_ données_ d’un_ seul_ produit.py'
+          'https://github.com/cl34057/P2/blob/master/extract_product.py'
 
     - Caractéristiques des produits dans une catégorie:
-            'Ramaroson_francis_2_Extraire_ toutes_ les_données_ des_ produits_ d’une_catégorie.py'
+            'https://github.com/cl34057/P2/blob/master/extract_products_category.py'
 
     - Tous les produits de toutes les categories sur tout le site
-            Ramaroson_francis_2_ Extraire_ toutes_ les_ produits_ de_ toutes_ les_catégories.py'
+           'https://github.com/cl34057/P2/blob/master/extracts_product.py'
 
     - Telechargement et enregistrement des fichiers images de tous ces produits de toutes les catégories sur le site
-            'Ramaroson_francis_2_Extraire_ et_ enregistrer_ les_ fichiers_ images.py'
+            'https://github.com/cl34057/P2/blob/master/download_img_products_categorys.py'
