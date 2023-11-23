@@ -32,7 +32,7 @@
             'https://github.com/cl34057/P2/blob/master/extract_products_category.py'
 
     - Tous les produits de toutes les categories sur tout le site
-           'https://github.com/cl34057/P2/blob/master/extracts_product.py'
+           'https://github.com/cl34057/P2/blob/master/extract_products.categorys.py'
 
     - Telechargement et enregistrement des fichiers images de tous ces produits de toutes les catégories sur le site
             'https://github.com/cl34057/P2/blob/master/download_img_products_categorys.py'
