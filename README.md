@@ -13,11 +13,14 @@
         - Activer un environnement virtuel. Sur le terminal, On utilise la commande 'python -m venv nom_env_virtuel'
         - Installer les dépendances du projet en utilisant 'pip'
 
-
+Les Versions utilisées
+----------------------
+python --version: Python 3.12.0
+pip --version   : pip 23.3.1
 
 ### 2. Les packages installés
 
-          pip freeze requirements.txt
+          pip freeze > requirements.txt
 
 ### 3. Lien GitHub
 
