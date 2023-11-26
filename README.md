@@ -9,9 +9,8 @@
         - cocher l'option "Add Python to PATH" pendant l'installation
         - Installer Visual Code sur le site: https://code.visualstudio.com/
         - Installer l'extension Python
-        - Redémarrer VSCode
         - Activer un environnement virtuel. Sur le terminal, On utilise la commande 'python -m venv nom_env_virtuel'
-        - Installer les dépendances du projet en utilisant 'pip'
+        
 
 Les Versions utilisées
 ----------------------
@@ -22,20 +21,15 @@ pip --version   : pip 23.3.1
 
           pip freeze > requirements.txt
 
-### 3. Lien GitHub
-
-          https://github.com/cl34057/P2.git
+  
 
 ### 3. Execution des scripts
+Pour executer les projets suivants
 
-    - Caractéristiques d'un seul produit:
-          'https://github.com/cl34057/P2/blob/master/extract_product.py'
+-Extraction des Caractéristiques d'un seul produit d'une seule pages dans un fichier csv et  enregistrement du fichier image du produit
+-Extraction des Caractéristiques des produits d'une catégorie dans un fichier csv et enregistrement des fichiers images des produits de la catégorie
+-Extraction des Caractéristiques des produits de toutes les catégories du site dans un
+un fichier csv distinct pour chaque catégorie et enregistrement des fichiers images des produits de chaque catégorie répertoriés
 
-    - Caractéristiques des produits dans une catégorie:
-            'https://github.com/cl34057/P2/blob/master/extract_products_category.py'
-
-    - Tous les produits de toutes les categories sur tout le site
-           'https://github.com/cl34057/P2/blob/master/extract_products.categorys.py'
-
-    - Telechargement et enregistrement des fichiers images de tous ces produits de toutes les catégories sur le site
-            'https://github.com/cl34057/P2/blob/master/download_img_products_categorys.py'
+tapez:
+        git clone https://github.com/cl34057/P2.git
