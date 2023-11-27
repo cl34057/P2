@@ -3,23 +3,25 @@
     # Enregistrement de l'image
 # Fonction pour obtenir un nom de fichier valide
 # URL de la page d'accueil du site "Books to Scrape"
+# URL de la page d'accueil du site "Books to Scrape"
 # Créer un répertoire pour les fichiers CSV
 # Fonction pour extraire les informations d'une page de produit
-    # Écrivez les informations dans le fichier CSV du répertoire "CSV"
-        # Écrivez l'en-tête du fichier CSV uniquement lors de la première itération
-        # Écrivez les informations du produit dans le fichier CSV
+    # Créer un DataFrame pandas avec les informations du produit
+    # Écrire les informations dans le fichier CSV du répertoire "CSV"
+        # Ajouter la ligne au fichier CSV existant
+        # Créer un nouveau fichier CSV avec l'en-tête
+    # Télécharger et enregistrer l'image dans le répertoire de la catégorie
 # Récupérez la page d'accueil
     # Trouvez toutes les catégories
         # Créez un répertoire pour la catégorie
         # Accédez à la page de la catégorie
             # Trouvez tous les produits dans la catégorie
-
 #*************rep_cv_rep_images1.py***OK*****rep pour CSV et rep pour Images*************
 import requests
 from bs4 import BeautifulSoup
-import csv
 import re
 import os
+import pandas as pd
 
 # Fonction pour télécharger une image et l'enregistrer
 def download_image(url, folder_path, title):
@@ -48,7 +50,7 @@ csv_folder = 'CSV'
 os.makedirs(csv_folder, exist_ok=True)
 
 # Fonction pour extraire les informations d'une page de produit
-def extract_product_info(product_url, category, csv_writer):
+def extract_product_info(product_url, category):
     response = requests.get(product_url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -63,24 +65,26 @@ def extract_product_info(product_url, category, csv_writer):
         review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
         image_url = base_url + soup.find('img')['src']
 
-        # Écrivez les informations dans le fichier CSV du répertoire "CSV"
-        csv_filename = os.path.join(csv_folder, f'{category}.csv')
-        with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            # Écrivez l'en-tête du fichier CSV uniquement lors de la première itération
-            if csvfile.tell() == 0:
-                csv_writer.writerow([
-                    'product_page_url', 'upc', 'title', 'price_including_tax',
-                    'price_excluding_tax', 'number_available', 'product_description',
-                    'category', 'review_rating', 'image_url'
-                ])
+        # Créer un DataFrame pandas avec les informations du produit
+        columns = [
+            'product_page_url', 'upc', 'title', 'price_including_tax',
+            'price_excluding_tax', 'number_available', 'product_description',
+            'category', 'review_rating', 'image_url'
+        ]
+        product_data = pd.DataFrame([[
+            product_page_url, upc, title, price_including_tax,
+            price_excluding_tax, number_available, product_description,
+            category, review_rating, image_url
+        ]], columns=columns)
 
-            # Écrivez les informations du produit dans le fichier CSV
-            csv_writer.writerow([
-                product_page_url, upc, title, price_including_tax,
-                price_excluding_tax, number_available, product_description,
-                category, review_rating, image_url
-            ])
+        # Écrire les informations dans le fichier CSV du répertoire "CSV"
+        csv_filename = os.path.join(csv_folder, f'{category}.csv')
+        if os.path.exists(csv_filename):
+            # Ajouter la ligne au fichier CSV existant
+            product_data.to_csv(csv_filename, mode='a', index=False, header=False, encoding='utf-8')
+        else:
+            # Créer un nouveau fichier CSV avec l'en-tête
+            product_data.to_csv(csv_filename, index=False, encoding='utf-8')
 
         # Télécharger et enregistrer l'image dans le répertoire de la catégorie
         download_image(image_url, os.path.join(output_folder, category), title)
@@ -115,7 +119,7 @@ if response.status_code == 200:
             
             for product_link in product_links:
                 product_url = base_url + 'catalogue' + product_link['href'][8:]
-                extract_product_info(product_url, category_name, csv.writer)
+                extract_product_info(product_url, category_name)
         
         else:
             print(f'Erreur {category_response.status_code} lors de la requête vers {category_url}')
