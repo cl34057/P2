@@ -1,3 +1,5 @@
+#**********III-Caractéristiques des produits de toutes les catégorieqet telechargement et enregistrement de tous les fichiers images*****
+
 # Fonction pour télécharger une image et l'enregistrer
     # Extraire le nom de fichier de l'URL de l'image
     # Enregistrement de l'image

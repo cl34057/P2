@@ -1,4 +1,4 @@
-#**********I-Caractéristiques des produits d'une catégorie dans un rep pour l'image et repertoire pour le csv******
+#**********II-Caractéristiques des produits d'une catégorie dans un rep pour l'image et repertoire pour le csv******
 
 # Fonction pour extraire les données d'une page produit
 # Fonction pour télécharger et enregistrer l'image
