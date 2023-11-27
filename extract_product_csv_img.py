@@ -1,5 +1,5 @@
 #************I-Caractéristiques d'un produit d'une page dans un rep pour l'image et repertoire pour le csv******
-#****************************extract_product2.py***********************************************************
+
 # Fonction pour extraire les données d'une page de produit
 #  Fonction pour télécharger et enregistrer l'image
 # URL de la page produit que vous souhaitez extraire
@@ -8,6 +8,8 @@
 # Créer un fichier CSV avec le nom du titre avant les deux-points (:)
 # Écrire les données dans le fichier CSV en ajustant la largeur des colonnes
 # Télécharger et enregistrer l'image dans le répertoire de la catégorie
+
+#****************************extract_product_csv_img.py***************************************************
 
 import requests
 from bs4 import BeautifulSoup

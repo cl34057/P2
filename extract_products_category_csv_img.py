@@ -1,5 +1,5 @@
-#**********I-Caractéristiques des produits 'd'une catégorie dans un rep pour l'image et repertoire pour le csv******
-#****************************extract_products_category3.py***********************************************************
+#**********I-Caractéristiques des produits d'une catégorie dans un rep pour l'image et repertoire pour le csv******
+
 # Fonction pour extraire les données d'une page produit
 # Fonction pour télécharger et enregistrer l'image
 # Fonction pour extraire les URLs de tous les produits dans une catégorie 
@@ -13,6 +13,8 @@
 # Créer un fichier CSV avec le nom de la catégorie
 # Écrire les données dans le fichier CSV en ajustant la largeur des colonnes
 # Télécharger et enregistrer les images dans le répertoire de la catégorie
+
+#*************extract_products_category_csv_img.py****************************************
 
 import requests
 from bs4 import BeautifulSoup

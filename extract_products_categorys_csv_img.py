@@ -16,7 +16,8 @@
         # Créez un répertoire pour la catégorie
         # Accédez à la page de la catégorie
             # Trouvez tous les produits dans la catégorie
-#*************rep_cv_rep_images1.py***OK*****rep pour CSV et rep pour Images*************
+            
+#*************extract_products_categorys_csv_img.py*********************
 import requests
 from bs4 import BeautifulSoup
 import re
