@@ -1,4 +1,6 @@
-#**********III-Caractéristiques des produits de toutes les catégorieqet telechargement et enregistrement de tous les fichiers images*****
+#**********III-Caractéristiques des produits de toutes les catégories et telechargement et enregistrement de tous les fichiers images*****
+
+#*************extract_products_categorys_csv_img.py*********************
 
 # Fonction pour télécharger une image et l'enregistrer
     # Extraire le nom de fichier de l'URL de l'image
