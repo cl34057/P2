@@ -1,52 +1,43 @@
-#**********III-Caractéristiques des produits de toutes les catégories et telechargement et enregistrement de tous les fichiers images*****
+#******III-Extraction des caracteristiques de tous les produits de toutes les categories*****************
+#*************************et Telechargement et enregistrement des fichiers images de tout ces produits***
 
-#*************extract_products_categorys_csv_img.py*********************
+#****************************extract_products_categorys_csv_img.py***************************************
 
-# Fonction pour télécharger une image et l'enregistrer
-    # Extraire le nom de fichier de l'URL de l'image
-    # Enregistrement de l'image
+# Fonction pour télécharger et enregistrer une image
 # Fonction pour obtenir un nom de fichier valide
-# URL de la page d'accueil du site "Books to Scrape"
-# URL de la page d'accueil du site "Books to Scrape"
+# URL de base du site 
 # Créer un répertoire pour les fichiers CSV
-# Fonction pour extraire les informations d'une page de produit
-    # Créer un DataFrame pandas avec les informations du produit
-    # Écrire les informations dans le fichier CSV du répertoire "CSV"
-        # Ajouter la ligne au fichier CSV existant
-        # Créer un nouveau fichier CSV avec l'en-tête
-    # Télécharger et enregistrer l'image dans le répertoire de la catégorie
-# Récupérez la page d'accueil
-    # Trouvez toutes les catégories
-        # Créez un répertoire pour la catégorie
-        # Accédez à la page de la catégorie
-            # Trouvez tous les produits dans la catégorie
-            
-#*************extract_products_categorys_csv_img.py*********************
+# Fonction pour extraire les informations produit d'une page produit
+    # Créez un DataFrame avec les informations sur le produit
+    # Écrivez le DataFrame dans un fichier CSV dans le répertoire "CSV"
+    # Téléchargez et enregistrez l'image dans le répertoire des catégories
+# Obtenir la page d'accueil
+     # Trouver toutes les catégories
+        # Créer un répertoire pour la catégorie
+        # Accéder à la page catégorie
+        # Retrouvez tous les produits de la catégorie
+        
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 import re
 import os
-import pandas as pd
 
-# Fonction pour télécharger une image et l'enregistrer
+# Fonction pour télécharger et enregistrer une image
 def download_image(url, folder_path, title):
     response = requests.get(url, stream=True)
-    
-    # Extraire le nom de fichier de l'URL de l'image
     filename = os.path.join(folder_path, get_valid_filename(title) + ".jpeg")
-    
-    # Enregistrement de l'image
     with open(filename, 'wb') as file:
         for chunk in response.iter_content(chunk_size=128):
             file.write(chunk)
-    print(f"Image téléchargée et enregistrée : {filename}")
+    print(f"Image downloaded and saved: {filename}")
 
 # Fonction pour obtenir un nom de fichier valide
 def get_valid_filename(title):
     clean_title = re.sub(r'[^a-zA-Z0-9 ]', '', title)
     return clean_title.strip()
 
-# URL de la page d'accueil du site "Books to Scrape"
+# Base URL du site
 base_url = 'http://books.toscrape.com/'
 output_folder = 'output'
 csv_folder = 'CSV'
@@ -54,7 +45,8 @@ csv_folder = 'CSV'
 # Créer un répertoire pour les fichiers CSV
 os.makedirs(csv_folder, exist_ok=True)
 
-# Fonction pour extraire les informations d'une page de produit
+
+# Fonction pour extraire les informations produit d'une page produit
 def extract_product_info(product_url, category):
     response = requests.get(product_url)
     if response.status_code == 200:
@@ -70,56 +62,55 @@ def extract_product_info(product_url, category):
         review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
         image_url = base_url + soup.find('img')['src']
 
-        # Créer un DataFrame pandas avec les informations du produit
-        columns = [
-            'product_page_url', 'upc', 'title', 'price_including_tax',
-            'price_excluding_tax', 'number_available', 'product_description',
-            'category', 'review_rating', 'image_url'
-        ]
-        product_data = pd.DataFrame([[
-            product_page_url, upc, title, price_including_tax,
-            price_excluding_tax, number_available, product_description,
-            category, review_rating, image_url
-        ]], columns=columns)
+       
+        # Créez un DataFrame avec les informations sur le produit
+        df = pd.DataFrame({
+            'product_page_url': [product_page_url],
+            'upc': [upc],
+            'title': [title],
+            'price_including_tax': [price_including_tax],
+            'price_excluding_tax': [price_excluding_tax],
+            'number_available': [number_available],
+            'product_description': [product_description],
+            'category': [category],
+            'review_rating': [review_rating],
+            'image_url': [image_url]
+        })
 
-        # Écrire les informations dans le fichier CSV du répertoire "CSV"
+        # Écrivez le DataFrame dans un fichier CSV dans le répertoire "CSV"
         csv_filename = os.path.join(csv_folder, f'{category}.csv')
-        if os.path.exists(csv_filename):
-            # Ajouter la ligne au fichier CSV existant
-            product_data.to_csv(csv_filename, mode='a', index=False, header=False, encoding='utf-8')
-        else:
-            # Créer un nouveau fichier CSV avec l'en-tête
-            product_data.to_csv(csv_filename, index=False, encoding='utf-8')
+        df.to_csv(csv_filename, index=False, mode='a', header=not os.path.exists(csv_filename), encoding='utf-8')
 
-        # Télécharger et enregistrer l'image dans le répertoire de la catégorie
+        # Téléchargez et enregistrez l'image dans le répertoire des catégories
         download_image(image_url, os.path.join(output_folder, category), title)
     else:
-        print(f'Erreur {response.status_code} lors de la requête vers {product_url}')
+        print(f'Error {response.status_code} while requesting {product_url}')
 
-# Récupérez la page d'accueil
+
+# Obtenir la page d'accueil
 response = requests.get(base_url)
 
 if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    # Trouvez toutes les catégories
+    # Trouver toutes les catégories
     categories = soup.select('div.side_categories ul.nav-list li ul li a')
     
     for category in categories:
         category_url = base_url + category['href']
         category_name = category.text.strip()
-        print(f'Exploration de la catégorie {category_name}...')
+        print(f'Exploring category: {category_name}...')
         
-        # Créez un répertoire pour la catégorie
+        # Créer un répertoire pour la catégorie
         os.makedirs(os.path.join(output_folder, category_name), exist_ok=True)
 
-        # Accédez à la page de la catégorie
+        # Accéder à la page catégorie
         category_response = requests.get(category_url)
         
         if category_response.status_code == 200:
             category_soup = BeautifulSoup(category_response.text, 'html.parser')
             
-            # Trouvez tous les produits dans la catégorie
+            # Retrouvez tous les produits de la catégorie
             product_links = category_soup.select('h3 a')
             
             for product_link in product_links:
@@ -127,6 +118,6 @@ if response.status_code == 200:
                 extract_product_info(product_url, category_name)
         
         else:
-            print(f'Erreur {category_response.status_code} lors de la requête vers {category_url}')
+            print(f'Error {category_response.status_code} while requesting {category_url}')
 else:
-    print(f'Erreur {response.status_code} lors de la requête vers {base_url}')
+    print(f'Error {response.status_code} while requesting {base_url}')
