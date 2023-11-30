@@ -1,21 +1,4 @@
-#**********II-Caractéristiques des produits d'une catégorie dans un rep pour l'image et repertoire pour le csv******
-
-#*************extract_products_category_csv_img.py****************************************
-
-# Fonction pour extraire les données d'une page produit
-# Fonction pour télécharger et enregistrer l'image
-# Fonction pour extraire les URLs de tous les produits dans une catégorie 
-    # Trouver toutes les balises <h3> qui contiennent les liens vers les pages de produits
-    # Construire la liste complète des URLs des produits
-# URL de la page de catégorie que vous souhaitez extraire
-# Extraire les URLs de tous les produits dans la catégorie
-# Boucle à travers les URLs des produits et extraire les données
-# Créer un DataFrame pandas pour mieux organiser les données
-# Créer un répertoire "CSV" s'il n'existe pas
-# Créer un fichier CSV avec le nom de la catégorie
-# Écrire les données dans le fichier CSV en ajustant la largeur des colonnes
-# Télécharger et enregistrer les images dans le répertoire de la catégorie
-
+#************************extract_products_category_csv_img.py************************
 
 
 import requests
@@ -23,6 +6,7 @@ from bs4 import BeautifulSoup
 import os
 import csv
 import pandas as pd
+import re
 
 # Fonction pour extraire les données d'une page produit
 def extract_product_data(url):
@@ -46,28 +30,39 @@ def extract_product_data(url):
 def download_and_save_image(image_url, category, title):
     response = requests.get(image_url)
     if response.status_code == 200:
-        category_dir = category.replace(" ", "_")
+        category_dir = re.sub(r'\W', '_', category)  # Remplace les caractères non alphanumériques par '_'
         os.makedirs(category_dir, exist_ok=True)
-        image_filename = os.path.join(category_dir, title.split(':')[0].strip() + '.jpeg')
+        title_without_special_chars = re.sub(r'\W', '_', title.split(':')[0].strip())
+        image_filename = os.path.join(category_dir, title_without_special_chars + '.jpeg')
         with open(image_filename, 'wb') as f:
             f.write(response.content)
 
 # Fonction pour extraire les URLs de tous les produits dans une catégorie
 def extract_all_product_urls(category_url):
-    response = requests.get(category_url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    all_urls = []
+    while category_url:
+        response = requests.get(category_url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Trouver toutes les balises <h3> qui contiennent les liens vers les pages de produits
+        product_links = soup.find_all('h3')
+        
+        # Construire la liste complète des URLs des produits
+        base_url = 'https://books.toscrape.com/catalogue/'
+        product_urls = [base_url + link.a['href'][9:] for link in product_links]
+        all_urls.extend(product_urls)
+
+        # Extraire l'URL de la page suivante
+        next_page = soup.find('li', class_='next')
+        if next_page:
+            category_url = category_url.rsplit('/', 1)[0] + '/' + next_page.a['href']
+        else:
+            break
     
-    # Trouver toutes les balises <h3> qui contiennent les liens vers les pages de produits
-    product_links = soup.find_all('h3')  
+    return all_urls
 
-    # Construire la liste complète des URLs des produits
-    base_url = 'https://books.toscrape.com/catalogue/'
-    product_urls = [base_url + link.a['href'][9:] for link in product_links]
-
-    return product_urls
-
-# URL de la page de catégorie que vous souhaitez extraire
-category_url = 'https://books.toscrape.com/catalogue/category/books/mystery_3/index.html'
+# Demander à l'utilisateur l'URL de la page de catégorie
+category_url = input("Veuillez entrer l'URL de la catégorie que vous souhaitez extraire : ")
 
 # Extraire les URLs de tous les produits dans la catégorie
 product_urls = extract_all_product_urls(category_url)
@@ -89,7 +84,7 @@ csv_folder = "CSV"
 os.makedirs(csv_folder, exist_ok=True)
 
 # Créer un fichier CSV avec le nom de la catégorie
-csv_filename = category_url.split('/')[-2] + '.csv'
+csv_filename = re.sub(r'\W', '_', category_url.split('/')[-2]) + '.csv'
 
 # Écrire les données dans le fichier CSV en ajustant la largeur des colonnes
 csv_filepath = os.path.join(csv_folder, csv_filename)

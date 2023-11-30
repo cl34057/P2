@@ -1,22 +1,7 @@
-#******III-Extraction des caracteristiques de tous les produits de toutes les categories*****************
-#*************************et Telechargement et enregistrement des fichiers images de tout ces produits***
 
-#****************************extract_products_categorys_csv_img.py***************************************
+#*******************extract_products_categorys_csv_img.py**************************
 
-# Fonction pour télécharger et enregistrer une image
-# Fonction pour obtenir un nom de fichier valide
-# URL de base du site 
-# Créer un répertoire pour les fichiers CSV
-# Fonction pour extraire les informations produit d'une page produit
-    # Créez un DataFrame avec les informations sur le produit
-    # Écrivez le DataFrame dans un fichier CSV dans le répertoire "CSV"
-    # Téléchargez et enregistrez l'image dans le répertoire des catégories
-# Obtenir la page d'accueil
-     # Trouver toutes les catégories
-        # Créer un répertoire pour la catégorie
-        # Accéder à la page catégorie
-        # Retrouvez tous les produits de la catégorie
-        
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -30,7 +15,7 @@ def download_image(url, folder_path, title):
     with open(filename, 'wb') as file:
         for chunk in response.iter_content(chunk_size=128):
             file.write(chunk)
-    print(f"Image downloaded and saved: {filename}")
+    print(f"Image téléchargée et enregistrée: {filename}")
 
 # Fonction pour obtenir un nom de fichier valide
 def get_valid_filename(title):
@@ -39,7 +24,7 @@ def get_valid_filename(title):
 
 # Base URL du site
 base_url = 'http://books.toscrape.com/'
-output_folder = 'output'
+output_folder = 'Images'
 csv_folder = 'CSV'
 
 # Créer un répertoire pour les fichiers CSV
@@ -84,8 +69,31 @@ def extract_product_info(product_url, category):
         # Téléchargez et enregistrez l'image dans le répertoire des catégories
         download_image(image_url, os.path.join(output_folder, category), title)
     else:
-        print(f'Error {response.status_code} while requesting {product_url}')
+        print(f'Erreur {response.status_code} pendan la requête{product_url}')
 
+# Fonction pour extraire les URLs de tous les produits dans une catégorie
+def extract_all_product_urls(category_url):
+    all_urls = []
+    while category_url:
+        response = requests.get(category_url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Trouver toutes les balises <h3> qui contiennent les liens vers les pages de produits
+        product_links = soup.select('h3 a')
+        
+        # Construire la liste complète des URLs des produits
+        base_url = 'https://books.toscrape.com/catalogue/'
+        product_urls = [base_url + link['href'][9:] for link in product_links]
+        all_urls.extend(product_urls)
+
+        # Extraire l'URL de la page suivante
+        next_page = soup.find('li', class_='next')
+        if next_page:
+            category_url = category_url.rsplit('/', 1)[0] + '/' + next_page.a['href']
+        else:
+            break
+    
+    return all_urls
 
 # Obtenir la page d'accueil
 response = requests.get(base_url)
@@ -99,25 +107,15 @@ if response.status_code == 200:
     for category in categories:
         category_url = base_url + category['href']
         category_name = category.text.strip()
-        print(f'Exploring category: {category_name}...')
+        print(f'Exploration de la catégorie: {category_name}...')
         
         # Créer un répertoire pour la catégorie
         os.makedirs(os.path.join(output_folder, category_name), exist_ok=True)
 
-        # Accéder à la page catégorie
-        category_response = requests.get(category_url)
-        
-        if category_response.status_code == 200:
-            category_soup = BeautifulSoup(category_response.text, 'html.parser')
-            
-            # Retrouvez tous les produits de la catégorie
-            product_links = category_soup.select('h3 a')
-            
-            for product_link in product_links:
-                product_url = base_url + 'catalogue' + product_link['href'][8:]
-                extract_product_info(product_url, category_name)
-        
-        else:
-            print(f'Error {category_response.status_code} while requesting {category_url}')
+        # Extraire les données de tous les produits de la catégorie
+        product_urls = extract_all_product_urls(category_url)
+
+        for product_url in product_urls:
+            extract_product_info(product_url, category_name)
 else:
-    print(f'Error {response.status_code} while requesting {base_url}')
+    print(f'Erreur {response.status_code} pendant la requête {base_url}')
