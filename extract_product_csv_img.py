@@ -30,9 +30,9 @@ def download_and_save_image(image_url, category, title):
     response = requests.get(image_url)
     if response.status_code == 200:
         category_dir = re.sub(r'\W', '_', category)  # Remplace les caractères non alphanumériques par '_'
-        os.makedirs(category_dir, exist_ok=True)
+        os.makedirs('download/'+category_dir, exist_ok=True)
         title_without_special_chars = re.sub(r'\W', '_', title.split(':')[0].strip())
-        image_filename = os.path.join(category_dir, title_without_special_chars + '.jpeg')
+        image_filename = os.path.join('download/' +category_dir, title_without_special_chars + '.jpeg')
         with open(image_filename, 'wb') as f:
             f.write(response.content)
 
@@ -46,7 +46,7 @@ columns = ['product_page_url', 'upc', 'title', 'price_including_tax', 'price_exc
 df = pd.DataFrame([product_data], columns=columns)
 
 # Créer un répertoire "CSV" s'il n'existe pas
-csv_folder = "CSV"
+csv_folder = "download/CSV"
 os.makedirs(csv_folder, exist_ok=True)
 
 # Créer un fichier CSV avec le nom du titre avant les deux-points (:)
