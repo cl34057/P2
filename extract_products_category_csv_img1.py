@@ -8,6 +8,10 @@ import csv
 import pandas as pd
 import re
 
+def extract_review_rating(review_rating_class):
+    rating_mapping = {'One': 1, 'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5}
+    return rating_mapping.get(review_rating_class, None)
+
 # Fonction pour extraire les données d'une page produit
 def extract_product_data(url):
     response = requests.get(url)
@@ -23,7 +27,9 @@ def extract_product_data(url):
     number_available = int(re.search(r'\b(\d+)\b', number_available_text).group())
     product_description = soup.find('meta', {'name': 'description'})['content']
     category = soup.select('ul.breadcrumb li')[2].text.strip()
-    review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
+    #review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
+    review_rating_class = soup.find('p', {'class': 'star-rating'})['class'][1]
+    review_rating = extract_review_rating(review_rating_class)
     image_url = url.replace('index.html', '') + soup.find('img')['src']
 
     return product_page_url, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url
@@ -76,6 +82,9 @@ all_product_data = []
 for product_url in product_urls:
     product_data = extract_product_data(product_url)
     all_product_data.append(product_data)
+    
+    
+    
 
 # Créer un DataFrame pandas pour mieux organiser les données
 columns = ['product_page_url', 'upc', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url']
