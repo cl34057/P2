@@ -46,16 +46,17 @@ Pour executer les projets suivants
 
 Il y aura donc 3 scripts. 
 
-Aller dans le repertoire de votre choix, puis tapez  la commande
-
+ tapez  la commande dans un repertoire
         git clone https://github.com/cl34057/P2.git
 
-Avant de lancer cette commande, installer les bibliothèques utiles pour le projet, et les importer
+        qui enregistrera les 3 scripts dans le repertoire choisi.
+
+Avant d'executer la commande, installez les bibliothèques utiles pour le projet, et les importer
 tapez:  * pour requests------------>    - pip install requests           
         * pour BeautifulSoup------->    - pip install BeautifulSoup
         * pour pandas-------------->    - pip install pandas
 
-        On peut peut importer directement 'os' et 're' par 'import os' et   'import re' 
+        On peut importer directement 'os' et 're' par 'import os' et   'import re' 
         qui font partie de la bibliothèque standard de Python.
 
 Cette commande permettra aux scripts de s'enregistrer sur votre repertoire.
