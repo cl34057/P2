@@ -17,10 +17,19 @@ def extract_product_data(url):
     title = soup.find('h1').text.strip()
     price_including_tax = soup.find_all('th')[3].find_next('td').text.replace('Â','')
     price_excluding_tax = soup.find_all('th')[2].find_next('td').text.replace('Â','')
-    number_available = soup.find_all('th')[5].find_next('td').text
+    #number_available = soup.find_all('th')[5].find_next('td').text
+    # Transformation du stock en nombre
+    number_available_text = soup.find_all('th')[5].find_next('td').text
+    #number_available = int(re.search(r'\d+', number_available_text).group())
+    number_available = int(re.search(r'\b(\d+)\b', number_available_text).group())
+
     product_description = soup.find('meta', {'name': 'description'})['content']
     category = soup.select('ul.breadcrumb li')[2].text.strip()
+    #review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
+    # Transformation du rating en nombre
     review_rating = soup.find('p', {'class': 'star-rating'})['class'][1]
+    #review_rating = int(review_rating_text.split('-')[1])
+    
     image_url = url.replace('index.html', '') + soup.find('img')['src']
 
     return product_page_url, upc, title, price_including_tax, price_excluding_tax, number_available, product_description, category, review_rating, image_url
