@@ -28,10 +28,11 @@ Les Versions utilisées
 ----------------------
 python --version: Python 3.12.0
 pip --version   : pip 23.3.1
+git --version   : git version 2.32.0
 
 ### 2. Les packages installés
 
-          pip freeze > requirements.txt
+          pip install -r requirements.txt
 
   
 
@@ -49,7 +50,15 @@ Aller dans le repertoire de votre choix, puis tapez  la commande
 
         git clone https://github.com/cl34057/P2.git
 
+Avant de lancer cette commande, installer les bibliothèques utiles pour le projet, et les importer
+tapez:  * pour requests------------>    - pip install requests           
+        * pour BeautifulSoup------->    - pip install BeautifulSoup
+        * pour pandas-------------->    - pip install pandas
+
+        On peut peut importer directement 'os' et 're' par 'import os' et   'import re' 
+        qui font partie de la bibliothèque standard de Python.
+
 Cette commande permettra aux scripts de s'enregistrer sur votre repertoire.
-Ainsi vous pouvez executer chaque script,
-        *        avec l'environnement python sur Vscode ,
-        *        ou tapez sur votre terminal : python 'nom du fichier.py'
+On peut lancer maintenant les programmes, Ainsi vous pouvez executer chaque script:
+        *        soit avec l'environnement python sur Vscode ,
+        *        soit tapez sur votre terminal : python 'nom du fichier.py'
