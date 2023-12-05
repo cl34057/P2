@@ -8,14 +8,20 @@
         - Installer Python sur le site: https://www.python.org/downloads/
         - cocher l'option "Add Python to PATH" pendant l'installation
         - Installer Visual Code sur le site: https://code.visualstudio.com/
+
+        Configuration de l'environnement virtuel
+        ----------------------------------------
+        Sur terminal- Creer un environnement virtuel. Sur le terminal, On utilise la commande 
+                        'python3 -m venv .chemin absolu/nom_env_virtuel'
+                    Et l'activer par commande prompt:  
+                        nom de l’environnement\Scripts\Activate.bat
+
+                   ou par Power Shell: 
+                        nom de l’environnement\Scripts\Activate.ps1   
+
         Sur Visual Code: - Faire CTRL+SHIFT+P
                          - Faire " Enter interpreter PATH
-                         - 
-        Sur terminal- Creer un environnement virtuel. Sur le terminal, On utilise la commande 
-                                'python3 -m venv .chemin absolu/nom_env_virtuel'
-           L'activer
-                   par commande prompt:   nom de l’environnement\Scripts\Activate.bat
-                   ou par Power Shell:    nom de l’environnement\Scripts\Activate.ps1     
+                         - et choisir l'environnement virtuel  
                    
 
 Les Versions utilisées

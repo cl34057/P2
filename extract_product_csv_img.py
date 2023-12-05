@@ -30,9 +30,9 @@ def download_and_save_image(image_url, category, title):
     response = requests.get(image_url)
     if response.status_code == 200:
         category_dir = re.sub(r'\W', '_', category)  # Remplace les caractères non alphanumériques par '_'
-        os.makedirs('download/'+category_dir, exist_ok=True)
+        os.makedirs('download/'+ category_dir, exist_ok=True)
         title_without_special_chars = re.sub(r'\W', '_', title.split(':')[0].strip())
-        image_filename = os.path.join('download/' +category_dir, title_without_special_chars + '.jpeg')
+        image_filename = os.path.join( 'download/'+category_dir, title_without_special_chars + '.jpeg')
         with open(image_filename, 'wb') as f:
             f.write(response.content)
 

@@ -24,8 +24,8 @@ def get_valid_filename(title):
 
 # Base URL du site
 base_url = 'http://books.toscrape.com/'
-output_folder = 'Images'
-csv_folder = 'CSV'
+output_folder = 'download + Images'
+csv_folder = 'download+CSV'
 
 # Créer un répertoire pour les fichiers CSV
 os.makedirs(csv_folder, exist_ok=True)
