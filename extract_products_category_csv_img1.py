@@ -1,4 +1,4 @@
-#************************extract_products_category_csv_img.py************************
+#*********************II***extract_products_category_csv_img.py************************
 
 
 import requests
