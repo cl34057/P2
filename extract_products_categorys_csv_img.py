@@ -30,6 +30,7 @@ csv_folder = 'download/CSV'
 # Créer un répertoire pour les fichiers CSV
 os.makedirs(csv_folder, exist_ok=True)
 
+#convertir des classes de notation textuelles en valeurs numériques correspondantes.
 def extract_review_rating(review_rating_class):
     rating_mapping = {'One': 1, 'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5}
     return rating_mapping.get(review_rating_class, None)
