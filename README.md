@@ -32,7 +32,8 @@ git --version   : git version 2.32.0
 
 ### 2. Les packages installés
 
-          pip install -r requirements.txt
+          
+        pip freeze > requirements.txt
 
   
 
@@ -51,15 +52,12 @@ Il y aura donc 3 scripts.
 
         qui enregistrera les 3 scripts dans le repertoire choisi.
 
-Avant d'executer la commande, installez les bibliothèques utiles pour le projet, et les importer
-tapez:  * pour requests------------>    - pip install requests           
-        * pour BeautifulSoup------->    - pip install BeautifulSoup
-        * pour pandas-------------->    - pip install pandas
+Sur  l'environnement souhaité, installez les packages utiles pour le projet
+        en tapant : 
+                        pip install -r requirements.txt
+qui va installer un par un, par défaut les packages.
 
-        On peut importer directement 'os' et 're' par 'import os' et   'import re' 
-        qui font partie de la bibliothèque standard de Python.
-
-Cette commande permettra aux scripts de s'enregistrer sur votre repertoire.
+CLes 3 scripts vont s'enregistrer sur votre repertoire.
 On peut lancer maintenant les programmes, Ainsi vous pouvez executer chaque script:
         *        soit avec l'environnement python sur Vscode ,
         *        soit tapez sur votre terminal : python 'nom du fichier.py'
