@@ -55,9 +55,9 @@ Il y aura donc 3 scripts.
 Sur  l'environnement souhaité, installez les packages utiles pour le projet
         en tapant : 
                         pip install -r requirements.txt
-qui va installer un par un, par défaut les packages.
+qui va installer par défaut les packages présents dans 'requirements.txt'
 
-CLes 3 scripts vont s'enregistrer sur votre repertoire.
+Les 3 scripts vont s'enregistrer sur votre repertoire.
 On peut lancer maintenant les programmes, Ainsi vous pouvez executer chaque script:
         *        soit avec l'environnement python sur Vscode ,
         *        soit tapez sur votre terminal : python 'nom du fichier.py'
